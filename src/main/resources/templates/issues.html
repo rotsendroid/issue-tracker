@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="ISO-8859-1">
+    <title>List Issues</title>
+    <link rel="stylesheet" type="text/css" href="/webjars/bootstrap/css/bootstrap.min.css" />
+    <script type="text/javascript" src="/webjars/jquery/jquery.min.js"></script>
+    <script type="text/javascript" src="/webjars/bootstrap/js/bootstrap.min.js"></script>
+    <style>
+    	.logout {
+    		margin-top: 1rem;
+    		margin-bottom: 1rem;
+    	}
+    	.issues-container {
+    		margin-top: 1rem;
+    	}
+    	.btn a{
+    		color: #fff;
+    	}
+    	.add-new-issue-btn a{
+    		display: inline-block;     
+		    position: relative;    
+   			z-index: 1;     
+	   		padding: 2em;     
+   			margin: -2em; 
+    	}
+    	
+    </style>
+</head>
+<body>
+ <div class="container">
+    <div class="text-right logout">
+        <form th:action="@{/logout}" method="post">        
+            <input type="submit" class="btn btn-dark" value="Sign Out" />
+        </form>
+    </div>
+    
+   
+	<div class="issues-container">
+        <h3 class="text-info text-center" th:text="${message}"></h3>
+
+        <h1 class="p-3 text-center">Issues List</h1>
+
+            <table class="table table-bordered text-center">
+                <tr>
+                    <th>Title</th>
+                    <th>Type</th>
+                    <th>Created at</th>
+                    <th>Status</th>
+                    <th>Details</th>
+                    <th>Edit</th>
+                    <th>Delete</th>
+                </tr>
+
+                    <tr th:each="issue : ${issues}">
+                        <td th:text="${issue.title}"></td>
+                        <td th:text="${issue.type}"></td>
+                        <td th:text="${issue.createdAt}"></td>
+                        <td th:text="${issue.status}"></td>
+                        <td><button type="button" class="btn btn-primary">
+                            <a th:href="@{/view-issue/{id}(id=${issue.id})}">View</a>
+                        </button></td>
+                        <td><button type="button" class="btn btn-warning">
+                            <a th:href="@{/edit-issue/{id}(id=${issue.id})}">Edit</a>
+                        </button></td>
+                        <td><button type="button" class="btn btn-danger">
+                            <a th:href="@{/delete-issue/{id}(id=${issue.id})}">Delete</a>
+                        </button></td>
+                    </tr>
+
+            </table>
+		
+		<div class="text-center">
+        <button type="button" class="btn btn-success">
+            <a href="/add-issue" >Add New Issue</a>
+        </button>
+        </div>
+
+    </div>
+
+</div>
+
+    
+</body>
+</html>

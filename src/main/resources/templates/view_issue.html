@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title>View Issue</title>
+<link rel="stylesheet" type="text/css"
+	href="/webjars/bootstrap/css/bootstrap.min.css" />
+<script type="text/javascript" src="/webjars/jquery/jquery.min.js"></script>
+<script type="text/javascript"
+	src="/webjars/bootstrap/js/bootstrap.min.js"></script>
+<style>
+	.logout {
+    		margin-top: 1rem;
+    		margin-bottom: 1rem;
+    	}
+</style>
+
+</head>
+<body>
+	<div class="container">
+		<div class="text-right logout">
+			<form th:action="@{/issues}" method="get">
+				<input type="submit" class="btn btn-dark" value="Return to issues" />
+			</form>
+		</div>
+
+
+		<div class="issues-container">
+			<h3 class="text-info text-center" th:text="${message}"></h3>
+
+			<h1 class="p-3 text-center">Issue</h1>
+
+			<table class="table table-hover table-bordered text-center">
+				<tr>
+					<th>Title</th>
+					<td th:text="${issue.title}"></td>
+				</tr>
+				<tr>
+					<th>Description</th>
+					<td th:text="${issue.description}"></td>
+				</tr>
+				<tr>
+					<th>Type</th>
+					<td th:text="${issue.type}"></td>
+				</tr>
+				
+				<tr>
+					<th>Assigned to</th>
+					<td th:text="${issue.assignedTo}"></td>
+				</tr>
+				
+				<tr>
+					<th>Created at</th>
+					<td th:text="${issue.createdAt}"></td>
+				</tr>
+					<th>Last edit at</th>
+					<td th:text="${issue.lastEditAt}"></td>
+				</tr>
+				
+				<tr>
+					<th>Last user edited</th>
+					<td th:text="${issue.lastUserEdited}"></td>
+				</tr>
+				
+				<tr>
+					<th>User created</th>
+					<td th:text="${issue.userCreated}"></td>
+				</tr>
+				
+				<tr>
+					<th>Status</th>
+					<td th:text="${issue.status}"></td>
+				</tr>
+
+			</table>
+
+		</div>
+
+	</div>
+
+</body>
+</html>

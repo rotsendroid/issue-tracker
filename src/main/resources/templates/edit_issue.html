@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title>List Issues</title>
+<link rel="stylesheet" type="text/css"
+	href="/webjars/bootstrap/css/bootstrap.min.css" />
+<script type="text/javascript" src="/webjars/jquery/jquery.min.js"></script>
+<script type="text/javascript"
+	src="/webjars/bootstrap/js/bootstrap.min.js"></script>
+<style>
+.logout {
+	margin-top: 1rem;
+	margin-bottom: 1rem;
+}
+
+.issues-container {
+	margin-top: 1rem;
+}
+
+.btn a {
+	color: #fff;
+}
+</style>
+</head>
+<body>
+	<div class="container">
+		<div class="text-right logout">
+			<form th:action="@{/issues}" method="get">
+				<input type="submit" class="btn btn-dark" value="Return to issues" />
+			</form>
+		</div>
+		
+		<div>
+			
+			 <h1 class="p-3">Edit Issue</h1>
+
+        <form th:action="@{/post-edit-issue}" th:object="${issue}" method="post">
+
+            <div class="row">
+                <div class="form-group col-md-12">
+                    <div class="col-md-6">
+                        <input type="hidden" th:field="*{id}" class="form-control input-sm" />
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-group col-md-12">
+                    <label class="col-md-3" for="title">Title</label>
+                    <div class="col-md-6">
+                        <input type="text" th:field="*{title}" id="title"
+                                    class="form-control input-sm" required="required" />
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-group col-md-12">
+                    <label class="col-md-3" for="lastName">Description</label>
+                    <div class="col-md-6">
+                        <input type="text" th:field="*{description}" id="description"
+                                    class="form-control input-sm" required="required" />
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-group col-md-12">
+                    <label class="col-md-3">Type</label>
+                    <div class="col-md-6">
+
+                        <div class="form-check-inline">
+                            <label class="form-check-label">
+                                <input type="radio" name="type-radio" class="form-check-input" th:field="*{type}" value="Bug" required="required" />Bug
+                            </label>
+                        </div>
+                        <div class="form-check-inline">
+                            <label class="form-check-label">
+                                <input type="radio" name="type-radio" class="form-check-input" th:field="*{type}" value="New Feature" />New Feature
+                            </label>
+                        </div>
+                        <div class="form-check-inline">
+                            <label class="form-check-label">
+                                <input type="radio" name="type-radio" class="form-check-input" th:field="*{type}" value="Task" />Task
+                            </label>
+                        </div>
+                        <div class="form-check-inline">
+                            <label class="form-check-label">
+                                <input type="radio" name="type-radio" class="form-check-input" th:field="*{type}" value="Sub-Task" />Sub-Task
+                            </label>
+                        </div>
+                        <div class="form-check-inline">
+                            <label class="form-check-label">
+                                <input type="radio" name="type-radio" class="form-check-input" th:field="*{type}" value="Improvement" />Improvement
+                            </label>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            
+<!--               <div class="row"> -->
+<!--                 <div class="form-group col-md-12"> -->
+<!--                     <label class="col-md-3">Assigned To</label>  -->
+<!--                     <div class="col-md-6"> -->
+<!--                         <input type="email" th:field="*{assignedTo}" id="assignedTo" -->
+<!--                                     class="form-control input-sm" required="required" /> -->
+<!--                     </div> -->
+<!--                 </div> -->
+<!--             </div> -->
+              <div class="row">
+                <div class="form-group col-md-12">
+                    <label class="col-md-3">Assigned To</label> 
+                    <div class="col-md-6">
+                       <select class="form-control" id="assignedTo" th:field="*{assignedTo}">							
+							<option th:each="user : ${users}" th:value="${user.name}"
+								th:text="${user.name}" th:selected="${user.name == issue.assignedTo}" ></option>
+						</select>
+                    </div>
+                </div>
+            </div>
+            
+
+            <div class="row">
+                <div class="form-group col-md-12">
+                    <label class="col-md-3">Created at</label>
+                    <div class="col-md-6">
+                        <input type="date" th:field="*{createdAt}" id="createdAt"
+                                    class="form-control input-sm" required="required" />
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="form-group col-md-12">
+                    <label class="col-md-3">Last edit at</label>
+                    <div class="col-md-6">
+                        <input type="date" th:field="*{lastEditAt}" id="lastEditAt"
+                                    class="form-control input-sm" required="required" />
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-group col-md-12">
+                    <label class="col-md-3">Last User edited</label>
+                    <div class="col-md-6">
+                         
+                          <select class="form-control" th:field="*{lastUserEdited}" id="lastUserEdited">							
+							<option th:each="user : ${users}" th:value="${user.name}"
+								th:text="${user.name}" th:selected="${user.name == issue.lastUserEdited}" ></option>
+						</select>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="form-group col-md-12">
+                    <label class="col-md-3">User created</label>
+                    <div class="col-md-6">
+                        <select class="form-control" th:field="*{userCreated}" id="userCreated">							
+							<option th:each="user : ${users}" th:value="${user.name}"
+								th:text="${user.name}" th:selected="${user.name == issue.userCreated}" ></option>
+						</select>
+                        
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="form-group col-md-12">
+                    <label class="col-md-3">Status</label>
+                    <div class="col-md-6">
+
+                        <div class="form-check-inline">
+                            <label class="form-check-label">
+                                <input type="radio" class="form-check-input" th:field="*{status}" value="Open" />Open
+                            </label>
+                        </div>
+                        <div class="form-check-inline">
+                            <label class="form-check-label">
+                                <input type="radio" class="form-check-input" th:field="*{status}" value="In Progress" />In Progress
+                            </label>
+                        </div>
+                        <div class="form-check-inline">
+                            <label class="form-check-label">
+                                <input type="radio" class="form-check-input" th:field="*{status}" value="Done" />Done
+                            </label>
+                        </div>
+                        <div class="form-check-inline">
+                            <label class="form-check-label">
+                                <input type="radio" class="form-check-input" th:field="*{status}" value="To Do" />To Do
+                            </label>
+                        </div>
+                        <div class="form-check-inline">
+                            <label class="form-check-label">
+                                <input type="radio" class="form-check-input" th:field="*{status}" value="Rejected" />Rejected
+                            </label>
+                        </div>
+                        <div class="form-check-inline">
+                            <label class="form-check-label">
+                                <input type="radio" class="form-check-input" th:field="*{status}" value="Accepted" />Accepted
+                            </label>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="row p-2">
+                <div class="col-md-2">
+                    <button class="btn btn-success">Update</button>
+                </div>
+            </div>
+        </form>
+		
+		</div>
+		
+	</div>
+	</body>
+</html>
+	
